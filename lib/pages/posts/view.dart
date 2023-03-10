@@ -23,7 +23,7 @@ class PostsPage extends StatelessWidget {
                 itemBuilder: (context, index) => CustomPostCard(
                     title: snapShot.data![index].title!,
                     description: snapShot.data![index].body!),
-              );
+            itemCount:snapShot.data!.length ,  );
             } else if (snapShot.connectionState == ConnectionState.waiting) {
               return ListView.builder(
                 itemBuilder: (context, index) => Shimmer.fromColors(
