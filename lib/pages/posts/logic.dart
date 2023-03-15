@@ -37,16 +37,21 @@ class PostsLogic extends GetxController {
 
 /// let define URL to parse our stringed  endpoint
    Uri uri=Uri.parse(baserver+"/posts");
+   https://jsonplaceholder.typicode.com/posts
    /// let make a get request
    http.Response response= await http.get(uri,headers: headers);
+
    print('response ${response.body.runtimeType}');
+if(response.statusCode==200) {
+      List<dynamic> json = jsonDecode(response.body);
+      json.forEach((element) {
+        postsList.add(PostsModel.fromJson(element));
+      });
+      return postsList;
+      print('response ${json}');
+    }else {
 
- List<dynamic> json = jsonDecode(response.body);
- json.forEach((element) {
-   postsList.add(PostsModel.fromJson(element));
- });
-
-   print('response ${json}');
-    return postsList;
+      return postsList;
+    }
   }
 }

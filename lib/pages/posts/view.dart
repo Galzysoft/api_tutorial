@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:data_model/pages/comments/view.dart';
 import 'package:data_model/pages/posts/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,9 @@ import 'logic.dart';
 
 class PostsPage extends StatelessWidget {
   final logic = Get.put(PostsLogic());
-  final state = Get.find<PostsLogic>().state;
+  final state = Get
+      .find<PostsLogic>()
+      .state;
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +23,29 @@ class PostsPage extends StatelessWidget {
           builder: (context, snapShot) {
             if (snapShot.hasData && snapShot.data!.length > 0) {
               return ListView.builder(
-                itemBuilder: (context, index) => CustomPostCard(
-                    title: snapShot.data![index].title!,
-                    description: snapShot.data![index].body!),
-            itemCount:snapShot.data!.length ,  );
-            } else if (snapShot.connectionState == ConnectionState.waiting) {
-              return ListView.builder(
-                itemBuilder: (context, index) => Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.grey.shade100,
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    height: 100,
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(20),
+                itemBuilder: (context, index) =>
+                    CustomPostCard(
+
+                        postsModel:snapShot.data![index],
                     ),
-                  ),
-                ),
+                itemCount: snapShot.data!.length,);
+            }
+            else if (snapShot.connectionState == ConnectionState.waiting) {
+              return ListView.builder(
+                itemBuilder: (context, index) =>
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        height: 100,
+                        width: Get.width,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
                 itemCount: 10,
               );
             } else {
@@ -55,12 +62,12 @@ class PostsPage extends StatelessWidget {
 class CustomPostCard extends StatelessWidget {
   CustomPostCard({
     super.key,
-    required this.title,
-    required this.description,
+
+required this.postsModel,
   });
 
-  final String title;
-  final String description;
+  final PostsModel postsModel;
+
   final logic = Get.put(PostsLogic());
 
   @override
@@ -82,15 +89,18 @@ class CustomPostCard extends StatelessWidget {
               collapsedIconColor: Colors.white,
               collapsedTextColor: Colors.white,
               iconColor: Colors.white,
-              title: Text(title, style: TextStyle(color: Colors.white)),
+              title: Text(postsModel.title!, style: TextStyle(color: Colors.white)),
               children: [
                 Row(
                   children: [
                     Expanded(
-                        child: Text(description,
+                        child: Text(postsModel.body!,
                             style: TextStyle(color: Colors.white))),
                   ],
-                )
+                ),
+                ElevatedButton(onPressed: () {
+                  Get.to(CommentsPage(postsModel: postsModel));
+                }, child: Text("view comments"))
               ]),
         ),
       ],

@@ -68,7 +68,7 @@ dogModel.value=DogModel.fromJSON(json);
   var headers= {
     'content-type': 'application/json',
     'Accept': 'application/json',
-    // 'Authorization': "Bearer dggdgdgfgf2f353gedhdhdxxgdgegegdxdheheheheh" ,
+    'Authorization': "Bearer dggdgdgfgf2f353gedhdhdxxgdgegegdxdheheheheh" ,
   };
 
     /// get the stringed infos from the i nternet RESPOND.BODY
